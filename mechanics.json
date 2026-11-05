@@ -1,0 +1,237 @@
+{
+  "version": 1,
+  "values": [
+    {
+      "name": "column_program_name_width",
+      "group": "ui",
+      "value": 200,
+      "unit": "px",
+      "source": "function 0x42afd2"
+    },
+    {
+      "name": "column_size_width",
+      "group": "ui",
+      "value": 70,
+      "unit": "px",
+      "source": "function 0x42afd2"
+    },
+    {
+      "name": "column_installed_on_width",
+      "group": "ui",
+      "value": 110,
+      "unit": "px",
+      "source": "function 0x42afd2"
+    },
+    {
+      "name": "saved_col_0_width",
+      "group": "ui",
+      "value": 373,
+      "unit": "px",
+      "source": "function 0x42afd2"
+    },
+    {
+      "name": "saved_col_1_width",
+      "group": "ui",
+      "value": 73,
+      "unit": "px",
+      "source": "function 0x42afd2"
+    },
+    {
+      "name": "saved_col_2_width",
+      "group": "ui",
+      "value": 110,
+      "unit": "px",
+      "source": "function 0x42afd2"
+    },
+    {
+      "name": "list_row_height",
+      "group": "ui",
+      "value": 24,
+      "unit": "px",
+      "source": "function 0x42afd2"
+    },
+    {
+      "name": "main_dialog_width_dlu",
+      "group": "ui",
+      "value": 321,
+      "unit": "dlu",
+      "source": "function 0x420a3f"
+    },
+    {
+      "name": "main_dialog_height_dlu",
+      "group": "ui",
+      "value": 199,
+      "unit": "dlu",
+      "source": "function 0x420a3f"
+    },
+    {
+      "name": "default_window_width",
+      "group": "ui",
+      "value": 579,
+      "unit": "px",
+      "source": "function 0x421430"
+    },
+    {
+      "name": "default_window_height",
+      "group": "ui",
+      "value": 750,
+      "unit": "px",
+      "source": "function 0x421430"
+    },
+    {
+      "name": "listview_ex_style",
+      "group": "ui",
+      "value": 65568,
+      "unit": "flags",
+      "source": "function 0x42afd2"
+    },
+    {
+      "name": "search_placeholder",
+      "group": "ui",
+      "value": "Type to find a program",
+      "source": "function 0x42dfa2"
+    },
+    {
+      "name": "cache_version",
+      "group": "cache",
+      "value": 3,
+      "unit": "version",
+      "source": "function 0x4250cd"
+    },
+    {
+      "name": "cache_unknown_size",
+      "group": "cache",
+      "value": 4294967295,
+      "unit": "KB",
+      "source": "function 0x4250cd"
+    },
+    {
+      "name": "cache_item_struct_size",
+      "group": "cache",
+      "value": 16,
+      "unit": "bytes",
+      "source": "function 0x424f39"
+    },
+    {
+      "name": "filetime_invalid_arg_hr",
+      "group": "parsing",
+      "value": 2147942487,
+      "unit": "hresult",
+      "source": "function 0x4367ce"
+    },
+    {
+      "name": "install_date_string_len",
+      "group": "parsing",
+      "value": 8,
+      "unit": "chars",
+      "source": "function 0x43dead"
+    },
+    {
+      "name": "install_date_year_chars",
+      "group": "parsing",
+      "value": 4,
+      "unit": "chars",
+      "source": "function 0x43dead"
+    },
+    {
+      "name": "install_date_month_chars",
+      "group": "parsing",
+      "value": 2,
+      "unit": "chars",
+      "source": "function 0x43dead"
+    },
+    {
+      "name": "install_date_day_chars",
+      "group": "parsing",
+      "value": 2,
+      "unit": "chars",
+      "source": "function 0x43dead"
+    },
+    {
+      "name": "store_apps_min_os_major",
+      "group": "enumeration",
+      "value": 6,
+      "unit": "version",
+      "source": "function 0x4378a1"
+    },
+    {
+      "name": "store_apps_min_os_minor",
+      "group": "enumeration",
+      "value": 2,
+      "unit": "version",
+      "source": "function 0x4378a1"
+    },
+    {
+      "name": "uninstall_reg_subkey",
+      "group": "enumeration",
+      "value": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall",
+      "source": "function 0x4378a1"
+    },
+    {
+      "name": "msi_uninstall_prefix",
+      "group": "uninstaller",
+      "value": "msiexec /X",
+      "source": "function 0x43dbb4"
+    },
+    {
+      "name": "msi_modify_prefix",
+      "group": "uninstaller",
+      "value": "msiexec /I",
+      "source": "function 0x43dbb4"
+    },
+    {
+      "name": "inno_uninstaller_exclude",
+      "group": "scanner",
+      "value": "unins000.exe",
+      "source": "function 0x43180c"
+    },
+    {
+      "name": "html_col_name_width",
+      "group": "export",
+      "value": 600,
+      "unit": "px",
+      "source": "function 0x42bbc9"
+    },
+    {
+      "name": "html_col_size_width",
+      "group": "export",
+      "value": 80,
+      "unit": "px",
+      "source": "function 0x42bbc9"
+    },
+    {
+      "name": "html_col_date_width",
+      "group": "export",
+      "value": 120,
+      "unit": "px",
+      "source": "function 0x42bbc9"
+    },
+    {
+      "name": "html_row_height",
+      "group": "export",
+      "value": 34,
+      "unit": "px",
+      "source": "function 0x42bbc9"
+    },
+    {
+      "name": "html_header_bg",
+      "group": "export",
+      "value": "#ECE9D8",
+      "source": "function 0x42bbc9"
+    },
+    {
+      "name": "lvm_getitemcount",
+      "group": "ui",
+      "value": 4100,
+      "unit": "msg",
+      "source": "function 0x42bbc9"
+    },
+    {
+      "name": "icon_path_buffer_len",
+      "group": "ui",
+      "value": 250,
+      "unit": "chars",
+      "source": "function 0x423794"
+    }
+  ]
+}
