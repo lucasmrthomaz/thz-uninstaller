@@ -81,3 +81,4 @@ cargo check
 
 ## 📄 Licença
 Distribuído sob licença livre / código aberto.
+
