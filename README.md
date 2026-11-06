@@ -1,6 +1,7 @@
 # THZ Uninstaller
 
 > Desinstalador de programas e limpador de vestígios para desktop Windows e aplicativos da Microsoft Store, desenvolvido em Rust com interface gráfica moderna e nativa via [egui](https://github.com/emilk/egui) / [eframe](https://github.com/emilk/egui/tree/master/crates/eframe).
+<img width="586" height="785" alt="image" src="https://github.com/user-attachments/assets/64c1bf1a-51a2-4e9d-9bb5-48818dee5ed8" />
 
 ---
 
