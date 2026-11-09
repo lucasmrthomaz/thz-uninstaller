@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
 
+use crate::services::cleaner::CleanupSummary;
+use crate::services::process::RunningProcess;
 use crate::utils::formatting::format_bytes_str;
 
 // ============================================================================
@@ -96,6 +98,11 @@ pub enum ActiveModal {
     About,
     ConfirmUninstall {
         program: ProgramEntry,
+        running_processes: Vec<RunningProcess>,
+    },
+    UninstallingProgress {
+        program: ProgramEntry,
+        elapsed_secs: u64,
     },
     ConfirmRemoveEntry {
         program: ProgramEntry,
@@ -104,11 +111,10 @@ pub enum ActiveModal {
         program: ProgramEntry,
         is_force_removal: bool,
         traces: Vec<TraceItem>,
-        cleaned_count: Option<usize>,
+        cleaned_summary: Option<CleanupSummary>,
     },
     StatusMessage {
         title: String,
         message: String,
     },
 }
-
