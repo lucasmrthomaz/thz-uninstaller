@@ -1,6 +1,6 @@
 [package]
 name = "thz-uninstaller"
-version = "1.5.4"
+version = "0.1.154"
 edition = "2021"
 description = "Open-source desktop program uninstaller and leftover trace cleaner"
 

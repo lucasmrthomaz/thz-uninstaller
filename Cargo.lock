@@ -3105,7 +3105,7 @@ dependencies = [
 
 [[package]]
 name = "thz-uninstaller"
-version = "1.5.4"
+version = "0.1.154"
 dependencies = [
  "chrono",
  "eframe",
