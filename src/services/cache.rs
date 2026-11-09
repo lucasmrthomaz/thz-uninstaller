@@ -1,10 +1,12 @@
 use std::collections::HashMap;
 use std::env;
 use std::fs;
-use std::io::Read;
+use std::io::{Read, Write};
 use std::path::Path;
 
 use flate2::read::GzDecoder;
+use flate2::write::GzEncoder;
+use flate2::Compression;
 
 use crate::constants::{CACHE_ITEM_STRUCT_SIZE, CACHE_UNKNOWN_SIZE, CACHE_VERSION};
 use crate::models::CachedEntry;
@@ -68,3 +70,50 @@ pub fn load_uninstall_cache() -> HashMap<String, CachedEntry> {
     map
 }
 
+pub fn remove_cache_entry(key_to_remove: &str) -> Result<(), String> {
+    let Ok(appdata) = env::var("APPDATA") else {
+        return Ok(());
+    };
+    let cache_dir = Path::new(&appdata).join("Geek Uninstaller");
+    let cache_path = cache_dir.join("cache.dat");
+    if !cache_path.exists() {
+        return Ok(());
+    }
+    let Ok(bytes) = fs::read(&cache_path) else {
+        return Ok(());
+    };
+    if bytes.first().copied() != Some(0x1f) {
+        return Ok(());
+    }
+    let mut decoder = GzDecoder::new(&bytes[..]);
+    let mut xml = String::new();
+    if decoder.read_to_string(&mut xml).is_err() {
+        return Ok(());
+    }
+
+    let mut new_lines = Vec::new();
+    let mut modified = false;
+    for line in xml.lines() {
+        let trimmed = line.trim();
+        if trimmed.starts_with("<CacheItem ") {
+            if let Some(key) = extract_xml_attr(trimmed, "key") {
+                if key.eq_ignore_ascii_case(key_to_remove) {
+                    modified = true;
+                    continue;
+                }
+            }
+        }
+        new_lines.push(line);
+    }
+
+    if modified {
+        let new_xml = new_lines.join("\r\n");
+        let mut encoder = GzEncoder::new(Vec::new(), Compression::default());
+        if encoder.write_all(new_xml.as_bytes()).is_ok() {
+            if let Ok(compressed) = encoder.finish() {
+                let _ = fs::write(&cache_path, compressed);
+            }
+        }
+    }
+    Ok(())
+}

@@ -8,7 +8,10 @@ use crate::constants::{
     MAIN_DIALOG_WIDTH_DLU, SAVED_COL_0_WIDTH, SAVED_COL_1_WIDTH, SAVED_COL_2_WIDTH,
 };
 use crate::models::{ActiveModal, ColorScheme, ProgramEntry, SortColumn, ViewMode};
+use crate::services::cleaner::delete_uninstall_entry;
+use crate::services::leftover::scan_leftover_traces;
 use crate::services::scanner::{enumerate_desktop_programs, enumerate_store_apps};
+use crate::services::uninstaller::{check_uninstaller_status, ActiveUninstaller, UninstallerStatus};
 use crate::ui::components::menu::render_menu_bar;
 use crate::ui::components::search::render_search_bar;
 use crate::ui::components::status::render_status_bar;
@@ -38,6 +41,7 @@ pub struct UninstallerApp {
     pub col_size_width: f32,
     pub col_date_width: f32,
     pub active_modal: ActiveModal,
+    pub active_uninstaller: Option<ActiveUninstaller>,
     pub screenshot_path: Option<PathBuf>,
     pub frame_count: u32,
     pub screenshot_requested: bool,
@@ -69,6 +73,7 @@ impl UninstallerApp {
             col_size_width: SAVED_COL_1_WIDTH,
             col_date_width: SAVED_COL_2_WIDTH,
             active_modal: ActiveModal::None,
+            active_uninstaller: None,
             screenshot_path,
             frame_count: 0,
             screenshot_requested: false,
@@ -161,6 +166,32 @@ impl UninstallerApp {
         self.active_list().iter().find(|p| &p.id == id).cloned()
     }
 
+    pub fn on_uninstaller_finished(&mut self, program: ProgramEntry, _success: bool) {
+        let traces = scan_leftover_traces(&program);
+        if traces.is_empty() {
+            let _ = delete_uninstall_entry(&program);
+            self.desktop_programs.retain(|p| p.id != program.id);
+            self.store_programs.retain(|p| p.id != program.id);
+            if self.selected_id.as_deref() == Some(program.id.as_str()) {
+                self.selected_id = self.filtered_and_sorted().first().map(|p| p.id.clone());
+            }
+            self.active_modal = ActiveModal::StatusMessage {
+                title: "Desinstalação Concluída".to_string(),
+                message: format!(
+                    "\"{}\" foi desinstalado com sucesso!\nNenhum vestígio residual foi detectado no sistema.",
+                    program.display_name
+                ),
+            };
+        } else {
+            self.active_modal = ActiveModal::LeftoverScanner {
+                program,
+                is_force_removal: false,
+                traces,
+                cleaned_summary: None,
+            };
+        }
+    }
+
     fn apply_theme(&self, ctx: &egui::Context) {
         match self.color_scheme {
             ColorScheme::Dark => ctx.set_visuals(egui::Visuals::dark()),
@@ -179,6 +210,30 @@ impl eframe::App for UninstallerApp {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
         self.apply_theme(ctx);
         handle_keyboard_shortcuts(self, ctx);
+
+        // Check active background uninstaller status
+        if let ActiveModal::UninstallingProgress {
+            ref program,
+            ref mut elapsed_secs,
+        } = self.active_modal
+        {
+            if let Some(ref mut uninstaller) = self.active_uninstaller {
+                match check_uninstaller_status(uninstaller) {
+                    UninstallerStatus::Running { elapsed_secs: secs } => {
+                        *elapsed_secs = secs;
+                        ctx.request_repaint_after(std::time::Duration::from_millis(500));
+                    }
+                    UninstallerStatus::Finished { success } => {
+                        self.active_uninstaller = None;
+                        let prog = program.clone();
+                        self.on_uninstaller_finished(prog, success);
+                    }
+                }
+            } else {
+                let prog = program.clone();
+                self.on_uninstaller_finished(prog, true);
+            }
+        }
 
         let filtered_items = self.filtered_and_sorted();
         let total_size_bytes: u64 = filtered_items.iter().map(|p| p.size_bytes).sum();
