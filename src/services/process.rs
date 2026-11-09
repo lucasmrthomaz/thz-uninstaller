@@ -175,3 +175,4 @@ pub fn kill_processes(processes: &[RunningProcess]) -> (usize, usize) {
     }
     (success, failed)
 }
+

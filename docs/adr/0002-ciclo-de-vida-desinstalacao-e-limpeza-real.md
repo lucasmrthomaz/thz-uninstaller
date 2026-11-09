@@ -48,3 +48,4 @@ A análise das rotinas anteriores de remoção evidenciou falhas estruturais cr�
   - Criação e remoção forçada de pastas aninhadas com arquivos (`test_delete_filesystem_path_file_and_dir`).
   - Parsing de argumentos com aspas e espaços (`test_split_arguments_quotes_and_spaces`).
 - Resultado: 9/9 testes aprovados com 100% de sucesso.
+
