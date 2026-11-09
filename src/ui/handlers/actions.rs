@@ -7,21 +7,30 @@ use winreg::RegKey;
 
 use crate::models::{ActiveModal, ProgramEntry, ViewMode};
 use crate::services::leftover::scan_leftover_traces;
+use crate::services::process::{find_program_processes, kill_processes};
 use crate::services::reporter::generate_html_report;
 use crate::ui::app::UninstallerApp;
 
 impl UninstallerApp {
     pub fn trigger_uninstall(&mut self, program: ProgramEntry) {
-        self.active_modal = ActiveModal::ConfirmUninstall { program };
+        let running_processes = find_program_processes(&program);
+        self.active_modal = ActiveModal::ConfirmUninstall {
+            program,
+            running_processes,
+        };
     }
 
     pub fn trigger_force_removal(&mut self, program: ProgramEntry) {
+        let running_processes = find_program_processes(&program);
+        if !running_processes.is_empty() {
+            let _ = kill_processes(&running_processes);
+        }
         let traces = scan_leftover_traces(&program);
         self.active_modal = ActiveModal::LeftoverScanner {
             program,
             is_force_removal: true,
             traces,
-            cleaned_count: None,
+            cleaned_summary: None,
         };
     }
 
@@ -47,8 +56,8 @@ impl UninstallerApp {
                 .spawn();
         } else {
             self.active_modal = ActiveModal::StatusMessage {
-                title: "Installation Folder".to_string(),
-                message: "Installation folder is not specified or does not exist on disk."
+                title: "Pasta de Instalação".to_string(),
+                message: "A pasta de instalação não está especificada ou não existe no disco."
                     .to_string(),
             };
         }
@@ -98,4 +107,3 @@ impl UninstallerApp {
         }
     }
 }
-

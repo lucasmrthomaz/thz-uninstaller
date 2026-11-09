@@ -8,7 +8,7 @@ fn main() -> eframe::Result<()> {
     let screenshot_path = parse_screenshot_arg();
 
     let viewport = egui::ViewportBuilder::default()
-        .with_title("Uninstaller 1.5.4.180")
+        .with_title("Uninstaller")
         .with_inner_size([DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT])
         .with_min_inner_size([480.0, 360.0]);
 
@@ -18,7 +18,7 @@ fn main() -> eframe::Result<()> {
     };
 
     eframe::run_native(
-        "Uninstaller 1.5.4.180",
+        "Uninstaller",
         options,
         Box::new(move |cc| {
             configure_windows_fonts(&cc.egui_ctx);

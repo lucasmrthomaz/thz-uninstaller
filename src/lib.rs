@@ -6,13 +6,15 @@ pub mod utils;
 
 pub use constants::*;
 pub use models::*;
-pub use services::cache::load_uninstall_cache;
+pub use services::cache::{load_uninstall_cache, remove_cache_entry};
+pub use services::cleaner::{clean_traces, delete_filesystem_path, delete_registry_path, delete_uninstall_entry, CleanupSummary};
 pub use services::leftover::{format_registry_trace_path, scan_leftover_traces};
+pub use services::process::{find_program_processes, kill_process, kill_processes, RunningProcess};
 pub use services::reporter::generate_html_report;
 pub use services::scanner::{
     enumerate_desktop_programs, enumerate_store_apps, inspect_install_directory,
     query_regkey_unix_time, resolve_install_date,
 };
+pub use services::uninstaller::{check_uninstaller_status, launch_uninstaller, ActiveUninstaller, UninstallerStatus};
 pub use ui::app::UninstallerApp;
 pub use utils::formatting::{format_bytes_str, format_total_bytes_str, parse_yyyymmdd};
-
